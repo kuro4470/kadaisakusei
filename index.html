@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雑学クイズ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>雑学クイズ</h1>
+    <p id="question"></p>
+    <ul id="choices"></ul>
+    <p id="result"></p>
+    <button id="next-btn" style="display:none;" onclick="nextQuestion()">次の問題へ</button>
+  </div>
+
+  <script>
+    const quiz = [
+      { q: "世界で一番面積が大きい国は？", a: "ロシア", c: ["ロシア", "カナダ", "中国"] },
+      { q: "日本で一番高い山は？", a: "富士山", c: ["富士山", "北岳", "槍ヶ岳"] },
+      { q: "地球で一番深い海溝は？", a: "マリアナ海溝", c: ["マリアナ海溝", "トンガ海溝", "日本海溝"] },
+      { q: "ハチは何本の足を持っている？", a: "6本", c: ["6本", "8本", "4本"] },
+      { q: "日本の国鳥は？", a: "キジ", c: ["ツル", "キジ", "ハト"] },
+      { q: "一番人口が多い国は？", a: "インド", c: ["中国", "インド", "アメリカ"] },
+      { q: "太陽系で最も大きい惑星は？", a: "木星", c: ["木星", "土星", "天王星"] },
+      { q: "オリンピックは何年ごとに開催される？", a: "4年ごと", c: ["2年ごと", "3年ごと", "4年ごと"] },
+      { q: "世界で一番高い滝は？", a: "エンジェルフォール", c: ["ナイアガラの滝", "エンジェルフォール", "イグアスの滝"] },
+      { q: "日本の一番長い川は？", a: "信濃川", c: ["信濃川", "利根川", "石狩川"] },
+      { q: "地球で一番寒い大陸は？", a: "南極大陸", c: ["北極", "南極大陸", "グリーンランド"] },
+      { q: "サハラ砂漠はどの大陸にある？", a: "アフリカ", c: ["アフリカ", "アジア", "オーストラリア"] },
+      { q: "イタリアの首都は？", a: "ローマ", c: ["ミラノ", "フィレンツェ", "ローマ"] },
+      { q: "フラミンゴの羽の色はなぜピンク？", a: "エサの色素", c: ["エサの色素", "日光", "体質"] },
+      { q: "地球の海は地表の何割を占める？", a: "約7割", c: ["約5割", "約6割", "約7割"] }
+    ];
+
+    let current = 0;
+
+    function showQuestion() {
+      const q = quiz[current];
+      document.getElementById("question").innerText = `Q${current+1}: ${q.q}`;
+      const choices = document.getElementById("choices");
+      choices.innerHTML = "";
+      q.c.forEach(choice => {
+        const li = document.createElement("li");
+        const button = document.createElement("button");
+        button.innerText = choice;
+        button.onclick = () => checkAnswer(choice);
+        li.appendChild(button);
+        choices.appendChild(li);
+      });
+      document.getElementById("result").innerText = "";
+      document.getElementById("next-btn").style.display = "none";
+    }
+
+    function checkAnswer(answer) {
+      const q = quiz[current];
+      const result = document.getElementById("result");
+      if (answer === q.a) {
+        result.innerText = "正解！🎉";
+        result.style.color = "green";
+      } else {
+        result.innerText = "不正解...💦";
+        result.style.color = "red";
+      }
+      document.getElementById("next-btn").style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < quiz.length) {
+        showQuestion();
+      } else {
+        document.getElementById("question").innerText = "お疲れさま！全問終了だよ✨";
+        document.getElementById("choices").innerHTML = "";
+        document.getElementById("result").innerText = "";
+        document.getElementById("next-btn").style.display = "none";
+      }
+    }
+
+    // 最初の問題を表示
+    showQuestion();
+  </script>
+</body>
+</html>
